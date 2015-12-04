@@ -14,22 +14,22 @@
       <div class="col-md-2"><p>Price Change: <b><%= stock[:price_data]["price_change_amount"] %></b></p></div>
       <div class="col-md-2"><p>Price Change Percent:  <b><%= stock[:price_data]["price_change_percent"] %></b></p></div>
 
-      <div class="col-md-3">
+      <div class="col-md-3 chart-img">
         <img src="<%= stock[:charts][:one_year] %>">
         <h6>One Year</h6>
       </div>
 
-      <div class="col-md-3">
+      <div class="col-md-3 chart-img">
         <img src="<%= stock[:charts][:one_month] %>">
         <h6>One Month</h6>
       </div>
 
-      <div class="col-md-3">
+      <div class="col-md-3 chart-img">
         <img src="<%= stock[:charts][:five_day] %>">
         <h6>Five Days</h6>
       </div>
 
-      <div class="col-md-3">
+      <div class="col-md-3 chart-img">
         <img src="<%= stock[:charts][:one_day] %>">
         <h6>One Day</h6>
       </div>
