@@ -6,7 +6,7 @@ class WelcomeController < ApplicationController
     @stock_data = []
     doc = Nokogiri::HTML(open('http://finviz.com/screener.ashx?v=111&f=sh_price_u2,ta_pattern_wedgeresistance&ft=3&o=change'))
     stocks = doc.css('div#screener-content td a.screener-link-primary')
-    stocks.first(12).each do |stock|
+    stocks.first(8).each do |stock|
       @stock_data << get_stock_data(stock.text)
     end
     puts @stock_data
@@ -36,7 +36,8 @@ class WelcomeController < ApplicationController
     end
     data_points.merge!({
       "price_change_amount" => doc.css('aside.price-quote-container h2.price-change-amount').text.strip,
-      "price_change_percent" => doc.css('aside.price-quote-container h2.price-change-percent').text.strip
+      "price_change_percent" => doc.css('aside.price-quote-container h2.price-change-percent').text.strip,
+      "company_name" => doc.css('h1.company-name').text.strip
 
     })
     data_points

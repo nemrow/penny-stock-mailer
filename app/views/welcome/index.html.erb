@@ -1,24 +1,39 @@
-
+<br>
 <% @stock_data.each do |stock| %>
 
-  <h1><%= stock[:name] %></h1>
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h3 class="panel-title"><%= stock[:name] %></h3>
+      <small><%= stock[:price_data]["company_name"] %></small>
+    </div>
+    <div class="panel-body text-center">
 
-  <p>current_price: <%= stock[:price_data]["current_price"] %></p>
-  <p>open: <%= stock[:price_data]["open"] %></p>
-  <p>days_range: <%= stock[:price_data]["day's_range"] %></p>
-  <p>price_change_amount: <%= stock[:price_data]["price_change_amount"] %></p>
-  <p>price_change_percent: <%= stock[:price_data]["price_change_percent"] %></p>
+      <div class="col-md-2 col-md-offset-1"><p>Current Price: <b><%= stock[:price_data]["current_price"] %></b></p></div>
+      <div class="col-md-2"><p>Open: <b><%= stock[:price_data]["open"] %></b></p></div>
+      <div class="col-md-2"><p>Days Range: <b><%= stock[:price_data]["day's_range"] %></b></p></div>
+      <div class="col-md-2"><p>Price Change: <b><%= stock[:price_data]["price_change_amount"] %></b></p></div>
+      <div class="col-md-2"><p>Price Change Percent:  <b><%= stock[:price_data]["price_change_percent"] %></b></p></div>
 
-  <h3>one_year</h3>
-    <img src="<%= stock[:charts][:one_year] %>">
-  <h3>one_month</h3>
-    <img src="<%= stock[:charts][:one_month] %>">
-  <h3>five_day</h3>
-    <img src="<%= stock[:charts][:five_day] %>">
-  <h3>one_day</h3>
-    <img src="<%= stock[:charts][:one_day] %>">
+      <div class="col-md-3">
+        <img src="<%= stock[:charts][:one_year] %>">
+        <h6>One Year</h6>
+      </div>
 
-  <h3></h3>
+      <div class="col-md-3">
+        <img src="<%= stock[:charts][:one_month] %>">
+        <h6>One Month</h6>
+      </div>
 
+      <div class="col-md-3">
+        <img src="<%= stock[:charts][:five_day] %>">
+        <h6>Five Days</h6>
+      </div>
+
+      <div class="col-md-3">
+        <img src="<%= stock[:charts][:one_day] %>">
+        <h6>One Day</h6>
+      </div>
+    </div>
+  </div>
 
 <% end %>
