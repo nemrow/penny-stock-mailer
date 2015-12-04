@@ -1,0 +1,24 @@
+
+<% @stock_data.each do |stock| %>
+
+  <h1><%= stock[:name] %></h1>
+
+  <p>current_price: <%= stock[:price_data]["current_price"] %></p>
+  <p>open: <%= stock[:price_data]["open"] %></p>
+  <p>days_range: <%= stock[:price_data]["day's_range"] %></p>
+  <p>price_change_amount: <%= stock[:price_data]["price_change_amount"] %></p>
+  <p>price_change_percent: <%= stock[:price_data]["price_change_percent"] %></p>
+
+  <h3>one_year</h3>
+    <img src="<%= stock[:charts][:one_year] %>">
+  <h3>one_month</h3>
+    <img src="<%= stock[:charts][:one_month] %>">
+  <h3>five_day</h3>
+    <img src="<%= stock[:charts][:five_day] %>">
+  <h3>one_day</h3>
+    <img src="<%= stock[:charts][:one_day] %>">
+
+  <h3></h3>
+
+
+<% end %>
