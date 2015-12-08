@@ -1,0 +1,15 @@
+times = window.stockShit.results.map (i) -> moment(i.timestamp).format('hh:mm')
+prices = window.stockShit.results.map (i) -> i.close
+
+console.log times
+
+new Chartist.Line '.ct-chart', {
+  labels: times
+  series: [prices]
+
+}
+
+
+
+
+

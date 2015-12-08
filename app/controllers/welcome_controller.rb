@@ -4,11 +4,12 @@ require 'open-uri'
 class WelcomeController < ApplicationController
   def index
     @stock_data = []
-    doc = Nokogiri::HTML(open('http://finviz.com/screener.ashx?v=111&f=sh_price_u2,ta_pattern_wedgeresistance&ft=3&o=change'))
+    doc = Nokogiri::HTML(open('http://finviz.com/screener.ashx?v=111&s=ta_mostvolatile&f=sh_price_u3&ft=3&o=change'))
     stocks = doc.css('div#screener-content td a.screener-link-primary')
-    stocks.first(8).each do |stock|
+    stocks.first(1).each do |stock|
       @stock_data << get_stock_data(stock.text)
     end
+    @stockJSON = JSON.load(open("http://marketdata.websol.barchart.com/getHistory.json?key=0159c3136bbb8a751c62fe9bb9a70e85&symbol=TLOG&type=minutes&startDate=20141207000000&interval=1&maxRecords=60")).to_json
     puts @stock_data
   end
 

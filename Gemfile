@@ -34,6 +34,11 @@ gem 'clockwork'
 
 gem 'unicorn'
 
+source 'https://rails-assets.org' do
+  gem 'rails-assets-chartist'
+  gem 'rails-assets-moment'
+end
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
