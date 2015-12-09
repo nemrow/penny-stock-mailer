@@ -9,7 +9,9 @@ class WelcomeController < ApplicationController
     stocks.first(1).each do |stock|
       @stock_data << get_stock_data(stock.text)
     end
-    @stockJSON = JSON.load(open("http://marketdata.websol.barchart.com/getHistory.json?key=0159c3136bbb8a751c62fe9bb9a70e85&symbol=TLOG&type=minutes&startDate=20141207000000&interval=1&maxRecords=60")).to_json
+    # end_date = Time.now.strftime("%Y%m%d")
+    end_date = 20151201
+    @stockJSON = JSON.load(open("http://marketdata.websol.barchart.com/getHistory.json?key=0159c3136bbb8a751c62fe9bb9a70e85&symbol=jgw&type=minutes&interval=1&maxRecords=30&startDateDate=#{end_date}")).to_json
     puts @stock_data
   end
 

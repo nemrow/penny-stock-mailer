@@ -1,5 +1,5 @@
 class MountainCounter
-  def initialize(stock)
+  def initialize(stock, floor_touch_trigger_count)
     @stock = stock
     @floor_touch_count = 0
     @stable = true
@@ -9,6 +9,7 @@ class MountainCounter
     @has_floored =  true
     @current_floor_index = 0
     @index = 0
+    @floor_touch_trigger_count = floor_touch_trigger_count
   end
 
   def run
@@ -41,10 +42,17 @@ class MountainCounter
       end
     end
 
-    @floor_touch_count
+    puts @floor_touch_count
+
+    buy_stock if @floor_touch_count >= @floor_touch_trigger_count
   end
 
   private
+
+  def buy_stock(quantity=100)
+    Transaction.create(stock: @stock, buy: @current_price, quantity: quantity, open: true)
+    User.first.update(cash: User.first.cash - (@current_price * quantity))
+  end
 
   def stock_json
     JSON.parse(JSON.load(open(api_url(@stock))).to_json)["results"].reverse

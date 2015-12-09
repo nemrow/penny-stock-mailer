@@ -6,7 +6,7 @@ namespace :read_pattern do
     stocks = VolatileStockScreener.new().run
     stocks.each do |stock|
       puts stock
-      puts MountainCounter.new(stock).run
+      MountainCounter.new(stock, 1).run
       puts "~~~"
     end
   end

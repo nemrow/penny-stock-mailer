@@ -1,4 +1,4 @@
-times = window.stockShit.results.map (i) -> moment(i.timestamp).format('hh:mm')
+times = window.stockShit.results.map (i) -> moment(i.timestamp).format('M/D hh:mm')
 prices = window.stockShit.results.map (i) -> i.close
 
 console.log times
