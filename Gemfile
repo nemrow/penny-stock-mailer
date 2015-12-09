@@ -30,6 +30,8 @@ gem 'nokogiri'
 gem 'sidekiq'
 gem 'sinatra', :require => nil
 
+gem 'clockwork'
+
 gem 'unicorn'
 
 # Use ActiveModel has_secure_password
