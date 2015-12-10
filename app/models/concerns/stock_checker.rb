@@ -24,8 +24,6 @@ class StockChecker
   end
 
   def sell_stock
-    puts "SELLING #{@stock_data['symbol']}"
-
     @transaction.update(
       sell: @stock_data["lastPrice"],
       open: false,
@@ -35,15 +33,5 @@ class StockChecker
     )
 
     User.first.update(cash: User.first.cash + (@stock_data["lastPrice"] * @transaction.quantity))
-
-    puts "buy price: #{@transaction.buy}"
-    puts "sell price: #{@transaction.sell}"
-    puts "profit/loss per share: #{@transaction.profit_loss_per_share}"
-    puts "profit/loss total: #{@transaction.total_profit_loss}"
-    puts "now cash is at #{User.first.cash.to_f}"
-
-    puts "cash in stocks: #{Transaction.all_open.sum(:total_buy_price)}"
-    puts "cash + stocks: #{Transaction.all_open.sum(:total_buy_price) + User.first.cash}"
-    puts "~~~~~~~~~~~~~~"
   end
 end

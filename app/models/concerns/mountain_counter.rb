@@ -44,8 +44,6 @@ class MountainCounter
       end
     end
 
-    puts @floor_touch_count
-
     buy_stock if (@floor_touch_count >= @floor_touch_trigger_count) && stock_not_already_open
   end
 

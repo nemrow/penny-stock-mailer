@@ -47,6 +47,9 @@ GEM
       autoprefixer-rails (>= 5.2.1)
       sass (>= 3.3.4)
     builder (3.2.2)
+    business_time (0.7.4)
+      activesupport (>= 3.1.0)
+      tzinfo
     byebug (8.2.1)
     celluloid (0.17.1.2)
       bundler
@@ -224,6 +227,7 @@ PLATFORMS
 
 DEPENDENCIES
   bootstrap-sass (~> 3.3.6)
+  business_time
   byebug
   clockwork
   coffee-rails (~> 4.1.0)
