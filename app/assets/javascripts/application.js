@@ -12,6 +12,8 @@
 //
 //= require jquery
 //= require bootstrap-sprockets
+//= require chartist
+//= require moment
 //= require jquery_ujs
 //= require turbolinks
 //= require_tree .
