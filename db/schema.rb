@@ -19,11 +19,15 @@ ActiveRecord::Schema.define(version: 20151208221202) do
   create_table "transactions", force: :cascade do |t|
     t.string   "stock"
     t.decimal  "buy"
-    t.integer  "quantity"
+    t.decimal  "total_buy_price"
     t.decimal  "sell"
+    t.decimal  "total_sell_price"
+    t.integer  "quantity"
     t.boolean  "open"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.decimal  "profit_loss_per_share"
+    t.decimal  "total_profit_loss"
+    t.datetime "created_at",            null: false
+    t.datetime "updated_at",            null: false
   end
 
   create_table "users", force: :cascade do |t|

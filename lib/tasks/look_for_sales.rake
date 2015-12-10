@@ -3,6 +3,8 @@ namespace :look_for_sales do
   task run: :environment do
     all_open_transactions = Transaction.all_open
 
+    puts all_open_transactions.count
+
     all_open_stocks_string = all_open_transactions.map(&:stock).join(",")
     all_open_stocks_url = StockChecker.api_url(all_open_stocks_string)
     all_open_stocks_json = JSON.parse(JSON.load(open(all_open_stocks_url)).to_json)["results"]
@@ -12,12 +14,8 @@ namespace :look_for_sales do
       StockChecker.new(transaction, stock_data).run
     end
 
-
-
-
-
-    byebug
-    p ""
+    puts "NEW COUNT"
+    puts Transaction.all_open.count
   end
 
 end

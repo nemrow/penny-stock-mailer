@@ -2,7 +2,7 @@ require 'open-uri'
 
 namespace :read_pattern do
   desc "TODO"
-  task start: :environment do
+  task run: :environment do
     stocks = VolatileStockScreener.new().run
     stocks.each do |stock|
       puts stock

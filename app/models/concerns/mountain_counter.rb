@@ -1,3 +1,5 @@
+require 'csv'
+
 class MountainCounter
   def initialize(stock, floor_touch_trigger_count)
     @stock = stock
@@ -44,26 +46,39 @@ class MountainCounter
 
     puts @floor_touch_count
 
-    buy_stock if @floor_touch_count >= @floor_touch_trigger_count
+    buy_stock if (@floor_touch_count >= @floor_touch_trigger_count) && stock_not_already_open
   end
 
   private
 
+  def stock_not_already_open
+    Transaction.all_open.where(stock: @stock).empty?
+  end
+
   def buy_stock(quantity=100)
-    Transaction.create(stock: @stock, buy: @current_price, quantity: quantity, open: true)
+    Transaction.create(
+      stock: @stock,
+      buy: @current_price,
+      total_buy_price: @current_price * quantity,
+      quantity: quantity,
+      open: true
+    )
     User.first.update(cash: User.first.cash - (@current_price * quantity))
   end
 
   def stock_json
-    JSON.parse(JSON.load(open(api_url(@stock))).to_json)["results"].reverse
+    csv = open(api_url(@stock))
+    json_string = CSV.parse(csv.read.encode(universal_newline: true)).to_json
+    JSON.parse(json_string)
   end
 
   def api_url(stock)
-    "http://marketdata.websol.barchart.com/getHistory.json?key=0159c3136bbb8a751c62fe9bb9a70e85&symbol=#{stock}&type=minutes&startDate=20141207000000&interval=1&maxRecords=60"
+    # "http://marketdata.websol.barchart.com/getHistory.json?key=0159c3136bbb8a751c62fe9bb9a70e85&symbol=#{stock}&type=minutes&startDate=20141207000000&interval=1&maxRecords=60"
+    "http://ds01.ddfplus.com/historical/queryminutes.ashx?username=jordann&password=barchart&symbol=#{stock}&order=desc"
   end
 
   def price_series
-    @price_series ||= stock_json.map{ |minute| minute["close"] }
+    @price_series ||= stock_json.map{ |minute| minute[5].to_f }
   end
 
   def mountain_too_wide?(index, current_floor_index)
