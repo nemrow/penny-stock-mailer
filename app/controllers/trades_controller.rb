@@ -1,7 +1,7 @@
 class TradesController < ApplicationController
   def index
-    @open_stocks = Transaction.all_open
-    @closed_stocks = Transaction.all_closed
+    @open_stocks = Transaction.all_open.order(:updated_at)
+    @closed_stocks = Transaction.all_closed.order(:updated_at)
 
     user = User.first
     @cash = user.cash
