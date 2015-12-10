@@ -5,6 +5,7 @@ class StockChecker
   end
 
   def run
+    set_new_current_price
     sell_stock if gained_by_one_cent or lost_by_one_cent
   end
 
@@ -14,6 +15,10 @@ class StockChecker
   end
 
   private
+
+  def set_new_current_price
+    @transaction.update(current_price: @stock_data["lastPrice"])
+  end
 
   def gained_by_one_cent
     @stock_data["lastPrice"].to_f >= @transaction.buy.to_f + 0.01

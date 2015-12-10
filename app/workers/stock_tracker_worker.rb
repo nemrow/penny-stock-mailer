@@ -4,10 +4,8 @@ class StockTrackerWorker
   include Sidekiq::Worker
 
   def perform
-    # if Time.now.during_business_hours?
-
+    if Time.now.during_business_hours?
       return if Transaction.all_open.empty?
-
       all_open_transactions = Transaction.all_open
       all_open_stocks_string = all_open_transactions.map(&:stock).join(",")
       all_open_stocks_url = StockChecker.api_url(all_open_stocks_string)
@@ -17,6 +15,6 @@ class StockTrackerWorker
         stock_data = all_open_stocks_json.find {|stock| stock["symbol"] == transaction.stock}
         StockChecker.new(transaction, stock_data).run
       end
-    # end
+    end
   end
 end

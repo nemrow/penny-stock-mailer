@@ -59,7 +59,8 @@ class MountainCounter
       buy: @current_price,
       total_buy_price: @current_price * quantity,
       quantity: quantity,
-      open: true
+      open: true,
+      current_price: @current_price
     )
     User.first.update(cash: User.first.cash - (@current_price * quantity))
   end

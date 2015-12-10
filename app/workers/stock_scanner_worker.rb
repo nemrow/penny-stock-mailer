@@ -2,11 +2,11 @@ class StockScannerWorker
   include Sidekiq::Worker
 
   def perform
-    # if Time.now.during_business_hours?
+    if Time.now.during_business_hours?
       stocks = VolatileStockScreener.new().run
       stocks.each do |stock|
-        MountainCounter.new(stock, 1).run
+        MountainCounterWorker.perform_async(stock)
       end
-    # end
+    end
   end
 end
