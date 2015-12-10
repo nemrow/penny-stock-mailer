@@ -5,6 +5,7 @@ class TradesController < ApplicationController
 
     user = User.first
     @cash = user.cash
-    @cash_plus_stocks = Transaction.all_open.sum(:current_price)
+    @stocks = Transaction.all_open.sum(:current_price)
+    @cash_plus_stocks = @cash + @stocks
   end
 end
