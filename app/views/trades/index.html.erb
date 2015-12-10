@@ -1,0 +1,57 @@
+<h3>Open Trades</h3>
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <td>stock</td>
+      <td>buy</td>
+      <td>total buy price</td>
+      <td>quantity</td>
+      <td>current price</td>
+    </tr>
+  </thead>
+
+  <% @open_stocks.each do |stock| %>
+    <tr class="active">
+      <td><%= stock.stock %></td>
+      <td><%= stock.buy %></td>
+      <td><%= stock.total_buy_price %></td>
+      <td><%= stock.quantity %></td>
+      <td><%= stock.current_price %></td>
+    </tr>
+  <% end %>
+</table>
+
+<h3>Closed Trades</h3>
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <td>stock</td>
+      <td>buy</td>
+      <td>total buy price</td>
+      <td>sell</td>
+      <td>total sell price</td>
+      <td>quantity</td>
+      <td>open</td>
+      <td>profit loss per share</td>
+      <td>total profit loss</td>
+      <td>current price</td>
+    </tr>
+  </thead>
+
+  <% @closed_stocks.each do |stock| %>
+    <tr class="<%= stock.class_status %>">
+      <td><%= stock.stock %></td>
+      <td><%= stock.buy %></td>
+      <td><%= stock.total_buy_price %></td>
+      <td><%= stock.sell %></td>
+      <td><%= stock.total_sell_price %></td>
+      <td><%= stock.quantity %></td>
+      <td><%= stock.open %></td>
+      <td><%= stock.profit_loss_per_share %></td>
+      <td><%= stock.total_profit_loss %></td>
+      <td><%= stock.current_price %></td>
+    </tr>
+  <% end %>
+</table>
