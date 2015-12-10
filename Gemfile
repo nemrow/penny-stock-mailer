@@ -36,6 +36,8 @@ gem 'clockwork'
 
 gem 'unicorn'
 
+gem 'rails_12factor', group: :production
+
 source 'https://rails-assets.org' do
   gem 'rails-assets-chartist'
   gem 'rails-assets-moment'
