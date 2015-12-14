@@ -2,6 +2,6 @@ class MountainCounterWorker
   include Sidekiq::Worker
 
   def perform(stock)
-    MountainCounter.new(stock, 1).run
+    MountainCounter.new(stock, ENV['MOUNTAIN_FLOOR_TRIGGER'].to_i).run
   end
 end
