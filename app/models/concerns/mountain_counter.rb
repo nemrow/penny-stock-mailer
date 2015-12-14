@@ -62,7 +62,8 @@ class MountainCounter
       open: true,
       current_price: @current_price
     )
-    User.first.update(cash: User.first.cash - (@current_price * quantity))
+
+    User.first.decrement!(:cash, @current_price * quantity)
   end
 
   def stock_json

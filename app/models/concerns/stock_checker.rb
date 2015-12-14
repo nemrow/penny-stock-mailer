@@ -36,6 +36,6 @@ class StockChecker
       profit_loss_per_share: @stock_data["lastPrice"] - @transaction.buy
     )
 
-    User.first.update(cash: User.first.cash + (@stock_data["lastPrice"] * @transaction.quantity))
+    User.first.increment!(:cash, @transaction.total_sell_price)
   end
 end
