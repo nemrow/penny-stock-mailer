@@ -10,8 +10,7 @@ class StockChecker
   end
 
   def self.api_url(stocks)
-    "http://marketdata.websol.barchart.com/getQuote.json?key=0159c3136bbb8a751c62fe9bb9a70e85&symbols=#{stocks}"
-    # "http://ds01.ddfplus.com/historical/queryticks.ashx?username=jordann&password=barchart&symbol=#{stocks}"
+    "http://ondemand.websol.barchart.com/getQuote.json?apikey=#{ENV['BARCHART_API_KEY']}&symbols=#{stocks}"
   end
 
   private

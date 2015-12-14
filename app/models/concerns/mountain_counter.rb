@@ -66,14 +66,13 @@ class MountainCounter
   end
 
   def stock_json
-    csv = open(api_url(@stock))
-    json_string = CSV.parse(csv.read.encode(universal_newline: true)).to_json
-    JSON.parse(json_string)
+    JSON.parse(JSON.load(open(api_url)).to_json)["results"]
   end
 
-  def api_url(stock)
+  def api_url
     # "http://marketdata.websol.barchart.com/getHistory.json?key=0159c3136bbb8a751c62fe9bb9a70e85&symbol=#{stock}&type=minutes&startDate=20141207000000&interval=1&maxRecords=60"
-    "http://ds01.ddfplus.com/historical/queryminutes.ashx?username=jordann&password=barchart&symbol=#{stock}&order=desc"
+    # "http://ds01.ddfplus.com/historical/queryminutes.ashx?username=jordann&password=barchart&symbol=#{stock}&order=desc"
+    "http://ondemand.websol.barchart.com/getHistory.json?apikey=#{ENV['BARCHART_API_KEY']}&symbol=#{@stock}&type=minutes&order=desc&maxRecords=60"
   end
 
   def price_series

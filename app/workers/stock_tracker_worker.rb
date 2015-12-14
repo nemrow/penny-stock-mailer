@@ -5,8 +5,9 @@ class StockTrackerWorker
 
   def perform
     if Time.now.during_business_hours?
-      return if Transaction.all_open.empty?
       all_open_transactions = Transaction.all_open
+      return if all_open_transactions.empty?
+
       all_open_stocks_string = all_open_transactions.map(&:stock).join(",")
       all_open_stocks_url = StockChecker.api_url(all_open_stocks_string)
       all_open_stocks_json = JSON.parse(JSON.load(open(all_open_stocks_url)).to_json)["results"]
