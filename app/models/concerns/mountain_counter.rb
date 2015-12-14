@@ -77,7 +77,7 @@ class MountainCounter
   end
 
   def price_series
-    @price_series ||= stock_json.map{ |minute| minute[5].to_f }
+    @price_series ||= stock_json.map{ |minute| minute["close"].to_f }
   end
 
   def mountain_too_wide?(index, current_floor_index)
