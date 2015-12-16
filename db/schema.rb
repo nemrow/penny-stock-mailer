@@ -11,10 +11,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151208221202) do
+ActiveRecord::Schema.define(version: 20151216214957) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "stocks", force: :cascade do |t|
+    t.string   "symbol"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+    t.string   "firebase_id"
+    t.string   "name"
+  end
 
   create_table "transactions", force: :cascade do |t|
     t.string   "stock"

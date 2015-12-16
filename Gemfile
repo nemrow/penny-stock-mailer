@@ -38,6 +38,8 @@ gem 'unicorn'
 
 gem 'rails_12factor', group: :production
 
+gem 'firebase'
+
 source 'https://rails-assets.org' do
   gem 'rails-assets-chartist'
   gem 'rails-assets-moment'
