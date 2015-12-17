@@ -8,6 +8,8 @@ module Clockwork
     puts "Running #{job}"
   end
 
-  every(1.minute, 'Checking Open Stocks') { StockTrackerWorker.perform_async }
-  every(5.minute, 'Scanning for stock mountains') { StockScannerWorker.perform_async }
+  # every(1.minute, 'Checking Open Stocks') { StockTrackerWorker.perform_async }
+  # every(5.minute, 'Scanning Open Stocks') { StockTrackerWorker.perform_async }
+
+  every(30.seconds, 'Updating All Stocks') { UpdateAllStocksWorker.perform_async }
 end
