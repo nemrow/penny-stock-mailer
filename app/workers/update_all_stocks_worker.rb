@@ -2,6 +2,8 @@ class UpdateAllStocksWorker
   include Sidekiq::Worker
 
   def perform
-    UpdateAllStocks.new.run
+    if Time.now.during_business_hours?
+      UpdateAllStocks.new.run
+    end
   end
 end
