@@ -22,7 +22,7 @@ class FirebaseStockUpdater
       plot_series.shift if plot_series.count > 60
       plot_series.push(new_plot)
     else
-      [new_plot]
+      plot_series = [new_plot]
     end
     stock_client.set("#{@firebase_id}/plots", plot_series)
   end
