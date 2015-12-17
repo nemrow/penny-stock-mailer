@@ -10,7 +10,7 @@ class UpdateAllStocks
         FirebaseStockUpdaterWorker.perform_async(
           stock_object_array[index].firebase_id,
           stock_json["lastPrice"],
-          stock_json["tradeTimestamp"]
+          stock_json["serverTimestamp"]
         )
       end
     end
