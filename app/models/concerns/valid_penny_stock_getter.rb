@@ -1,13 +1,14 @@
 class ValidPennyStockGetter
-  def initialize
+  def initialize(page_count=5)
     @stocks = []
+    @page_count = page_count.to_i
   end
 
   def run
     add_stocks_from_page(main_doc)
 
     # (2..pagination_count).each do |page_num|
-    (2..4).each do |page_num|
+    (2..@page_count).each do |page_num|
       add_stocks_from_page(Nokogiri::HTML(open(finviz_url(page_num))))
     end
 
