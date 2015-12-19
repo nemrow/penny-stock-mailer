@@ -1,11 +1,11 @@
 class StockChecker
   def initialize(transaction, stock_data)
     @transaction = transaction
+    @stock = @transaction.stock
     @stock_data = stock_data
   end
 
   def run
-    set_new_current_price
     sell_stock if gained_by_one_cent or lost_by_one_cent
   end
 
@@ -14,10 +14,6 @@ class StockChecker
   end
 
   private
-
-  def set_new_current_price
-    @transaction.update(current_price: @stock_data["lastPrice"])
-  end
 
   def gained_by_one_cent
     @stock_data["lastPrice"].to_f >= @transaction.buy.to_f + 0.01
@@ -28,14 +24,6 @@ class StockChecker
   end
 
   def sell_stock
-    @transaction.update(
-      sell: @stock_data["lastPrice"],
-      open: false,
-      total_sell_price: @stock_data["lastPrice"] * @transaction.quantity,
-      total_profit_loss: (@stock_data["lastPrice"] - @transaction.buy) * @transaction.quantity,
-      profit_loss_per_share: @stock_data["lastPrice"] - @transaction.buy
-    )
-
-    User.first.increment!(:cash, @transaction.total_sell_price)
+    TransactionStore.new(@stock, @stock_data["lastPrice"], @transaction.quantity).sell
   end
 end
