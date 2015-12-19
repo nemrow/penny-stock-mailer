@@ -1,4 +1,6 @@
 class Transaction < ActiveRecord::Base
+  belongs_to :stock
+
   scope :all_open, -> { where(open: true) }
   scope :all_closed, -> { where(open: false) }
 

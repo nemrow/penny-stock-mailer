@@ -1,5 +1,6 @@
 class Stock < ActiveRecord::Base
   before_create :add_firebase_id
+  has_many :transactions
 
   def add_firebase_id
     firebase_object = firebase_base_client.push("stocks", {
