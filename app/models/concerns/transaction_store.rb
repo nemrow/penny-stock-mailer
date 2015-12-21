@@ -26,6 +26,18 @@ class TransactionStore
     )
 
     User.first.decrement!(:cash, total_buy_price)
+
+    set_firebase_transactions_associations
+  end
+
+  def set_firebase_transactions_associations
+    transaction_keys_hash = firebase_client.get("stocks/#{@stock.firebase_id}/transactions").body
+    if transaction_keys_hash
+      transaction_keys_hash.merge!({"#{new_firebase_transaction.body['name']}" => true})
+    else
+      transaction_keys_hash = {"#{new_firebase_transaction.body['name']}" => true}
+    end
+    firebase_client.set("stocks/#{@stock.firebase_id}/transactions", transaction_keys_hash)
   end
 
   def sell_stock
@@ -39,6 +51,48 @@ class TransactionStore
     )
 
     User.first.increment!(:cash, total_sell_price)
+
+    update_firebase_transaction
+  end
+
+  def new_firebase_transaction
+    @new_firebase_transaction ||= firebase_client.push("transactions", {
+      stock: @stock.firebase_id,
+      buy: @price,
+      total_buy_price: total_buy_price,
+      quantity: @quantity,
+      open: true
+    })
+  end
+
+  def update_firebase_transaction
+    firebase_client.update("transactions/#{firebase_open_transaction[:key]}", {
+      sell: @price,
+      open: false,
+      total_sell_price: total_sell_price,
+      total_profit_loss: total_profit_loss,
+      profit_loss_per_share: profit_loss_per_share
+    })
+  end
+
+  def firebase_open_transaction
+    @firebase_open_transaction ||= begin
+      all_stock_transactions = firebase_client.get("transactions",
+        :orderBy => '"stock"',
+        :equalTo => "\"#{@stock.firebase_id}\""
+      ).body
+
+      transaction = all_stock_transactions.find{|i|i[1]["open"]}
+
+      {
+        key: transaction[0],
+        data: transaction[1]
+      }
+    end
+  end
+
+  def firebase_client
+    Firebase::Client.new("https://penny-stock.firebaseio.com/")
   end
 
   def open_transaction
