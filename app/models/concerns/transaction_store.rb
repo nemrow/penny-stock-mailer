@@ -22,6 +22,7 @@ class TransactionStore
       buy: @price,
       total_buy_price: total_buy_price,
       quantity: @quantity,
+      symbol: @stock.symbol,
       open: true
     )
 
