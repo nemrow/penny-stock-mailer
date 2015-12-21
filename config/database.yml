@@ -83,3 +83,4 @@ production:
   database: penny-stock-mailer_production
   username: penny-stock-mailer
   password: <%= ENV['PENNY-STOCK-MAILER_DATABASE_PASSWORD'] %>
+  pool: 120
