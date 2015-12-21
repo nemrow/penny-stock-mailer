@@ -15,7 +15,10 @@ class MountainCounter
 
   def run
     while @stable
-      @index += 1
+      unless plots
+        @stable = false
+        break
+      end
 
       if mountain_too_wide?(@index, @current_floor_index)
         @stable = false
@@ -41,6 +44,8 @@ class MountainCounter
       if @index == (price_series.count - 1)
         @stable = false
       end
+
+      @index += 1
     end
 
     puts @stock.symbol
@@ -48,7 +53,7 @@ class MountainCounter
 
     {
       floor_count: @floor_touch_count,
-      price: price_series.first
+      price: (plots ? price_series.first : nil)
     }
   end
 
