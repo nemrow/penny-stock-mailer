@@ -68,11 +68,21 @@ class FirebaseBase
     # DYNAMIC METHODS FOR ASSOCIATIONS
 
     def has_many(attr)
-      define_method "#{attr}=" do
-
+      define_method "set_#{attr}" do |args|
+        args = [args] unless args.kind_of?(Array)
+        firebase_object_ids_hash = {}
+        args.each do |firebase_object|
+          firebase_object_ids_hash[firebase_object.id] = true
+        end
+        self.class.set_attr_accessor(self, attr, firebase_object_ids_hash)
+        FirebaseBase.firebase_request(:set,
+          "#{self.firebase_model}/#{self.id}/#{attr}",
+          firebase_object_ids_hash.as_json
+        )
       end
-      define_method "#{attr}" do
 
+      define_method "#{attr}" do
+        self.send("#{attr}")
       end
     end
 
@@ -85,7 +95,7 @@ class FirebaseBase
         end
       end
       define_method "#{attr}" do
-
+        self.send("#{attr}")
       end
     end
 
