@@ -38,7 +38,7 @@ gem 'unicorn'
 
 gem 'rails_12factor', group: :production
 
-gem 'firebase'
+gem 'firebase_rails', git: 'https://github.com/nemrow/firebase-rails.git'
 
 source 'https://rails-assets.org' do
   gem 'rails-assets-chartist'

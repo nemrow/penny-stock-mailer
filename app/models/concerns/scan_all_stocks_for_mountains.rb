@@ -5,7 +5,7 @@ class ScanAllStocksForMountains
   end
 
   def run
-    Stock.all.each do |stock|
+    FirebaseStock.all.each do |stock|
       unless stock_already_open?(stock)
         BuyerDeciderWorker.perform_async(stock.id, @floor_count_trigger, @quantity_to_buy)
       end
@@ -19,6 +19,6 @@ class ScanAllStocksForMountains
   end
 
   def all_open_stock_ids_array
-    @all_open_stock_ids_array ||= Transaction.all_open.pluck(:stock_id)
+    @all_open_stock_ids_array ||= FirebaseTransaction.find_by({open: true}).map{|stock| stock.id}
   end
 end

@@ -5,7 +5,7 @@ class MountainCounter
     @stock = stock
     @floor_touch_count = 0
     @stable = true
-    @current_price = price_series.first
+    @current_price = plot_series.first
     @ceiling_price = @current_price + 0.01
     @has_peaked = false
     @has_floored =  true
@@ -15,7 +15,7 @@ class MountainCounter
 
   def run
     while @stable
-      unless plots
+      unless @stock.plots
         @stable = false
         break
       end
@@ -26,7 +26,7 @@ class MountainCounter
       end
 
       if @has_peaked
-        if acceptable_floor_range?(@current_price, price_series[@index])
+        if acceptable_floor_range?(@current_price, plot_series[@index])
           @has_floored = true
           @has_peaked = false
           @floor_touch_count += 1
@@ -34,14 +34,14 @@ class MountainCounter
       end
 
       if @has_floored
-        if price_series[@index] >= @ceiling_price
+        if plot_series[@index] >= @ceiling_price
           @has_floored = false
           @has_peaked = true
           @current_floor_index = @index
         end
       end
 
-      if @index == (price_series.count - 1)
+      if @index == (plot_series.count - 1)
         @stable = false
       end
 
@@ -53,18 +53,14 @@ class MountainCounter
 
     {
       floor_count: @floor_touch_count,
-      price: (plots ? price_series.first : nil)
+      price: (@stock.plots ? plot_series.first : nil)
     }
   end
 
   private
 
-  def stock_not_already_open
-    Transaction.all_open.where(stock: @stock).empty?
-  end
-
-  def price_series
-    @price_series ||= plots.reverse.map{ |plot| plot["price"].to_f }
+  def plot_series
+    @plot_series ||= @stock.plots.reverse.map{ |plot| plot["price"].to_f }
   end
 
   def mountain_too_wide?(index, current_floor_index)
@@ -75,17 +71,5 @@ class MountainCounter
   def acceptable_floor_range?(current_price, price_check)
     price_check <= (current_price + 0.005) &&
     price_check >= (current_price - 0.005)
-  end
-
-  def plots
-    @plots ||= firebase_stock_data['plots']
-  end
-
-  def firebase_stock_data
-    @firebase_stock_data ||= stock_client.get(@stock.firebase_id).body
-  end
-
-  def stock_client
-    Firebase::Client.new("https://penny-stock.firebaseio.com/stocks/")
   end
 end

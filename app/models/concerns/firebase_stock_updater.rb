@@ -1,12 +1,12 @@
 class FirebaseStockUpdater
   def initialize(firebase_id, current_price, timestamp)
-    @firebase_id = firebase_id
+    @stock = FirebaseStock.find(firebase_id)
     @current_price = current_price
     @timestamp = timestamp
   end
 
   def run
-    stock_client.update(@firebase_id, {
+    @stock.update({
       current_price: @current_price,
       timestamp: @timestamp
     })
@@ -16,7 +16,7 @@ class FirebaseStockUpdater
   private
 
   def update_plot_series
-    plot_series = stock_client.get("#{@firebase_id}/plots").body
+    plot_series = @stock.plots
     new_plot = {price: @current_price, time: @timestamp}
     if plot_series
       plot_series.shift if plot_series.count > 60
@@ -24,10 +24,6 @@ class FirebaseStockUpdater
     else
       plot_series = [new_plot]
     end
-    stock_client.set("#{@firebase_id}/plots", plot_series)
-  end
-
-  def stock_client
-    Firebase::Client.new("https://penny-stock.firebaseio.com/stocks/")
+    stock.update(plot_series)
   end
 end
